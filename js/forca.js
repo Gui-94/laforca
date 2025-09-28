@@ -126,10 +126,10 @@ async function atraso(tempo){
 function carregaImagemForca(){
     switch(tentativas){
         case 5:
-            document.getElementById("imagem").style.background  = "url('./img/forca01.png')";
+            document.getElementById("imagem").style.background  = "url('./img/frca00.png')";
             break;
         case 4:
-            document.getElementById("imagem").style.background  = "url('./img/forca02.png')";
+            document.getElementById("imagem").style.background  = "url('./img/cabeca.png')";
             break;
         case 3:
             document.getElementById("imagem").style.background  = "url('./img/forca03.png')";
