@@ -349,4 +349,21 @@ body {
 }
 /*#endregion*/
 
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;     
+    height: 0px;           
+    background-color: #f5f5f5;
+  }
 
+  .icon {
+    width: 20px;  
+    height: auto; /* mantém a proporção */
+  }
+  
+footer a {
+color: #fff;
+margin:0 15px
+
+}
