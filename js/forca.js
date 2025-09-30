@@ -126,10 +126,10 @@ async function atraso(tempo){
 function carregaImagemForca(){
     switch(tentativas){
         case 5:
-            document.getElementById("imagem").style.background  = "url('./img/frca00.png')";
+            document.getElementById("imagem").style.background  = "url('./img/forca01.png')";
             break;
         case 4:
-            document.getElementById("imagem").style.background  = "url('./img/cabeca.png')";
+            document.getElementById("imagem").style.background  = "url('./img/forca02.png')";
             break;
         case 3:
             document.getElementById("imagem").style.background  = "url('./img/forca03.png')";
@@ -144,7 +144,7 @@ function carregaImagemForca(){
             document.getElementById("imagem").style.background  = "url('./img/forca06.png')";
             break;
         default:
-            document.getElementById("imagem").style.background  = "url('./img/forca.png')";
+            document.getElementById("imagem").style.background  = "url('./img/forca06.png')";
             break;
     }
 }
