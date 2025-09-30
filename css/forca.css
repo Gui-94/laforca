@@ -11,7 +11,7 @@ body {
     margin: 0;
     font-family: 'Ubuntu', sans-serif;
 
-    /* imagem local */
+   
     background-image: url("../img/fundo-castelo.jpg");
     background-repeat: no-repeat;
     background-size: cover;
@@ -109,15 +109,15 @@ body {
     outline: none;
     border-radius: 50%;        
     font-size: 3.5em;          
-    color: #fff;               /* ícones/textos sempre brancos */
+    color: #fff;              
     cursor: pointer;
     box-shadow: 0 6px 14px rgba(0,0,0,0.5); 
     transition: transform 0.2s, background-color 0.2s;
     z-index: 999;
-    bottom: 120px;             /* subi os botões */
+    bottom: 120px;             
 }
 
-/* efeito hover */
+
 #abreModalAddPalavra:hover, 
 #recarregar:hover, 
 #jogarAutomatico:hover, 
@@ -125,35 +125,35 @@ body {
     transform: scale(1.1);
 }
 
-/* cores individuais */
+
 #abreModalAddPalavra {
-    background-color: #8b008b; /* roxo escuro */
+    background-color: #8b008b; 
     right: 50px;
 }
 
 #recarregar {
-    background-color: #0077ff; /* azul */
+    background-color: #0077ff; 
     right: 170px;
     bottom: 120
 }
 
 #jogarAutomatico {
-    background-color: #ff8c00; /* laranja */
+    background-color: #ff8c00; 
     right: 290px;
 }
 
 #jogarNovamente {
-    background-color: #28a745; /* verde */
+    background-color: #28a745; 
     right: 410px;
-    bottom: 200px;  /* ↑ subi mais (antes era 120px) */
+    bottom: 200px;  
 }
 
 #abreModalAddPalavra:hover, 
 #recarregar:hover, 
 #jogarAutomatico:hover, 
 #jogarNovamente:hover {
-    transform: scale(1.2);      /* cresce no hover */
-    background-color: #ff1493;  /* muda cor no hover */
+    transform: scale(1.2);      
+    background-color: #ff1493;  
 }
 
 #abreModalAddPalavra{
@@ -275,7 +275,7 @@ body {
     cursor: pointer;
 }
 
-/*#region MEDIA QUERY*/
+
 @media (min-width: 321px){
     .teclas button{
         width: 25px;
@@ -347,7 +347,6 @@ body {
         width: 50%;
     }
 }
-/*#endregion*/
 
 footer {
     display: flex;
