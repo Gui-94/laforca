@@ -15,7 +15,6 @@ function criarPalavraSecreta(){
     palavraSecretaSorteada = palavras[indexPalavra].nome;
     palavraSecretaCategoria = palavras[indexPalavra].categoria;
 
-    // console.log(palavraSecretaSorteada);
 }
 
 montarPalavraNaTela();
@@ -69,7 +68,6 @@ function mudarStyleLetra(tecla, condicao){
         document.getElementById(tecla).style.background = "#008000";
         document.getElementById(tecla).style.color = "#ffffff";
     }
-
     
 }
 
@@ -79,10 +77,21 @@ function comparalistas(letra){
         tentativas--
         carregaImagemForca();
 
-        if(tentativas == 0){
-            abreModal("OPS!", "Não foi dessa vez ... A palavra secreta era <br>" + palavraSecretaSorteada);
-            piscarBotaoJogarNovamente(true);
-        }
+    if(tentativas == 0){
+    let mensagem = `
+        <div style="text-align: center;">
+            <img src="img/gipmov.gif" alt="Perdeu" style="width:280px; margin-bottom:15px;">
+            <p style="font-size:45px; color:#721c24; font-weight:bold;">
+                GAME OVER... <br> A palavra secreta era <span style="color:#0a0a0a;">${palavraSecretaSorteada}</span>
+            </p>
+            <button id="btnReiniciarModal" class="btn-reiniciar">Jogar Novamente</button>
+        </div>
+    `;
+    abreModal("OPS!", mensagem);
+
+    piscarBotaoReiniciarModal();
+}
+
     }
     else{
         mudarStyleLetra("tecla-" + letra, true);
@@ -100,53 +109,71 @@ function comparalistas(letra){
         }
     }
 
-    if(vitoria == true)
-    {
-        abreModal("PARABÉNS!", "Você venceu...");
-        tentativas = 0;
-        piscarBotaoJogarNovamente(true);
-    }
+   if(vitoria == true)
+{
+    tentativas = 0; 
+    let mensagem = `
+        <div style="text-align: center;">
+            <img src="img/winner.gif" alt="Venceu" style="width:280px; margin-bottom:15px;">
+            <p style="font-size:45px; color:#721c24; font-weight:bold;">
+                WINNER <br> A palavra era <span style="color:#0a0a0a;">${palavraSecretaSorteada}</span>
+            </p>
+            <button id="btnReiniciarModal" class="btn-reiniciar">Jogar Novamente</button>
+        </div>
+    `;
+    abreModal("PARABÉNS!", mensagem);
+
+    piscarBotaoReiniciarModal();
 }
 
-// async function piscarBotaoJogarNovamente(){
-//     while (jogarNovamente == true) {
-//         document.getElementById("btnReiniciar").style.backgroundColor = 'red';
-//         document.getElementById("btnReiniciar").style.scale = 1.3;
-//         await atraso(500)
-//         document.getElementById("btnReiniciar").style.backgroundColor = 'yellow';
-//         document.getElementById("btnReiniciar").style.scale = 1;
-//         await atraso(500)
-//     }
-// }
+}
 
 async function atraso(tempo){
     return new Promise(x => setTimeout(x, tempo))     
 }
 
-function carregaImagemForca(){
-    switch(tentativas){
-        case 5:
-            document.getElementById("imagem").style.background  = "url('./img/forca01.png')";
-            break;
-        case 4:
-            document.getElementById("imagem").style.background  = "url('./img/forca02.png')";
-            break;
-        case 3:
-            document.getElementById("imagem").style.background  = "url('./img/forca03.png')";
-            break;
-        case 2:
-            document.getElementById("imagem").style.background  = "url('./img/forca04.png')";
-            break;
-        case 1:
-            document.getElementById("imagem").style.background  = "url('./img/forca05.png')";
-            break;
-        case 0:
-            document.getElementById("imagem").style.background  = "url('./img/forca06.png')";
-            break;
-        default:
-            document.getElementById("imagem").style.background  = "url('./img/forca.png')";
-            break;
+async function piscarBotaoReiniciarModal() {
+    let btn = document.getElementById("btnReiniciarModal");
+    if (!btn) return;
+
+    btn.addEventListener("click", () => {
+        location.reload(); 
+    });
+
+    let piscar = true;
+    btn.addEventListener("click", () => piscar = false);
+
+    while(piscar){
+        btn.style.backgroundColor = "#C71585";
+        btn.style.boxShadow = "0 0 10px #C71585";
+        await atraso(500);
+        btn.style.backgroundColor = "#ff1493";
+        btn.style.boxShadow = "0 0 20px #ff1493";
+        await atraso(500);
     }
+
+    btn.style.backgroundColor = "#C71585";
+    btn.style.boxShadow = "0 0 10px #C71585";
+}
+
+
+function carregaImagemForca() {
+    let url = "";
+    switch (tentativas) {
+        case 5: url = "./img/forca01.png"; break;
+        case 4: url = "./img/forca02.png"; break;
+        case 3: url = "./img/forca03.png"; break;
+        case 2: url = "./img/forca04.png"; break;
+        case 1: url = "./img/forca05.png"; break;
+        case 0: url = "./img/forca06.png"; break;
+        default: url = "./img/forca.png"; break;
+    }
+
+    const imagem = document.getElementById("imagem");
+    imagem.style.backgroundImage = `url('${url}')`;
+    imagem.style.backgroundRepeat = "no-repeat";       // não repetir
+    imagem.style.backgroundPosition = "center";        // centralizar
+    imagem.style.backgroundSize = "contain";           // ajustar dentro do container
 }
 
 function abreModal(titulo, mensagem){
@@ -167,23 +194,23 @@ bntReiniciar.addEventListener("click", function(){
     location.reload();
 });
 
-function listaAutomatica(){ // ativa o modo manual
-    if (jogoAutomatico == true) {
-        document.getElementById("jogarAutomatico").innerHTML = "<i class='bx bx-play-circle'></i>"
-        palavras = [];
-        jogoAutomatico = false;
 
-        document.getElementById("abreModalAddPalavra").style.display = "block";
-        document.getElementById("status").innerHTML = "Modo Manual";
-    }
-    else if(jogoAutomatico == false){ // ativa o modo automático
-        document.getElementById("jogarAutomatico").innerHTML = "<i class='bx bx-pause-circle'></i>"
-        jogoAutomatico = true;
+function reiniciarJogo() {
+    tentativas = 6;
+    listaDinamica = [];
+    carregaImagemForca();
+    criarPalavraSecreta();
+    montarPalavraNaTela();
 
-        document.getElementById("abreModalAddPalavra").style.display = "none";
-        document.getElementById("status").innerHTML = "Modo Automático";
-        
-    }
+    document.querySelectorAll("button").forEach(b => {
+        if (b.id.startsWith("tecla-")) {
+            b.disabled = false;
+            b.style.background = "#fff";
+            b.style.color = "#000";
+        }
+    });
+
+    document.getElementById("jogarNovamente").style.display = "none";
 }
 
 const modal = document.getElementById("modal-alerta");
@@ -211,11 +238,11 @@ window.onclick = function(){
 function carregaListaAutomatica(){
     palavras = [
         palavra001 = {
-            nome: "IRLANDA",
+            nome: "BRASIL",
             categoria:"LUGARES"
         },
         palavra002 = {
-            nome: "EQUADOR",
+            nome: "JAPAO",
             categoria:"LUGARES"
         },
         palavra003 = {
@@ -223,11 +250,11 @@ function carregaListaAutomatica(){
             categoria:"LUGARES"
         },
         palavra004 = {
-            nome: "INDONESIA",
+            nome: "ARGENTINA",
             categoria:"LUGARES"
         },
         palavra005 = {
-            nome: "MALDIVAS",
+            nome: "MEXICO",
             categoria:"LUGARES"
         },
         palavra006 = {
@@ -235,19 +262,19 @@ function carregaListaAutomatica(){
             categoria:"LUGARES"
         },
         palavra007 = {
-            nome: "GROELANDIA",
+            nome: "URUGUAI",
             categoria:"LUGARES"
         },
         palavra008 = {
-            nome: "UZBEQUISTAO",
+            nome: "CANADA",
             categoria:"LUGARES"
         },
         palavra009 = {
-            nome: "INDONESIA",
+            nome: "FRANCA",
             categoria:"LUGARES"
         },
         palavra010 = {
-            nome: "CREGUENHEM",
+            nome: "CHINA",
             categoria:"LUGARES"
         },
         palavra011 = {
@@ -263,7 +290,7 @@ function carregaListaAutomatica(){
             categoria:"TRANSPORTE"
         },
         palavra014 = {
-            nome: "TELEFERICO",
+            nome: "SKATE",
             categoria:"TRANSPORTE"
         },
         palavra015 = {
@@ -287,7 +314,7 @@ function carregaListaAutomatica(){
             categoria:"TRANSPORTE"
         },
         palavra020 = {
-            nome: "FUNICULAR",
+            nome: "CARRO",
             categoria:"TRANSPORTE"
         },
         palavra021 = {
@@ -295,23 +322,23 @@ function carregaListaAutomatica(){
             categoria:"OBJETOS"
         },
         palavra022 = {
-            nome: "MOEDA",
+            nome: "FACA",
             categoria:"OBJETOS"
         },
         palavra023 = {
-            nome: "ESPARADRAPO",
+            nome: "MACHADO",
             categoria:"OBJETOS"
         },
         palavra024 = {
-            nome: "SINO",
+            nome: "MULETA",
             categoria:"OBJETOS"
         },
         palavra025 = {
-            nome: "CHUVEIRO",
+            nome: "SERRA ELETRICA",
             categoria:"OBJETOS"
         },
         palavra026 = {
-            nome: "TAMBORETE",
+            nome: "VASSOURA",
             categoria:"OBJETOS"
         },
         palavra027 = {
@@ -319,7 +346,7 @@ function carregaListaAutomatica(){
             categoria:"OBJETOS"
         },
         palavra028 = {
-            nome: "BOCAL",
+            nome: "TELEFONE",
             categoria:"OBJETOS"
         },
         palavra029 = {
@@ -347,27 +374,27 @@ function carregaListaAutomatica(){
             categoria:"ALIMENTOS"
         },
         palavra035 = {
-            nome: "JANTAR",
+            nome: "ABOBORA",
             categoria:"ALIMENTOS"
         },
         palavra036 = {
-            nome: "SABOROSO",
+            nome: "DOCES",
             categoria:"ALIMENTOS"
         },
         palavra037 = {
-            nome: "DESJEJUM",
+            nome: "TRAVESSURAS",
             categoria:"ALIMENTOS"
         },
         palavra038 = {
-            nome: "MASTIGAR",
+            nome: "PIZZA",
             categoria:"ALIMENTOS"
         },
         palavra039 = {
-            nome: "ENGOLIR",
+            nome: "MAÇA",
             categoria:"ALIMENTOS"
         },
         palavra040 = {
-            nome: "DOCERIA",
+            nome: "PUDIM",
             categoria:"ALIMENTOS"
         },
         palavra040 = {
@@ -375,35 +402,35 @@ function carregaListaAutomatica(){
             categoria:"ANIMAIS"
         },
         palavra041 = {
-            nome: "GALINHA",
+            nome: "GATO PRETO",
             categoria:"ANIMAIS"
         },
         palavra042 = {
-            nome: "PAVAO",
+            nome: "MORCEGO",
             categoria:"ANIMAIS"
         },
         palavra043 = {
-            nome: "CAMELO",
+            nome: "ARANHA",
             categoria:"ANIMAIS"
         },
         palavra044 = {
-            nome: "PERU",
+            nome: "CORUJA",
             categoria:"ANIMAIS"
         },
         palavra045 = {
-            nome: "ZEBRA",
+            nome: "SAPO",
             categoria:"ANIMAIS"
         },
         palavra046 = {
-            nome: "DROMEDARIO",
+            nome: "CORUJA",
             categoria:"ANIMAIS"
         },
         palavra047 = {
-            nome: "CALANGO",
+            nome: "COBRA",
             categoria:"ANIMAIS"
         },
         palavra048 = {
-            nome: "SAGUI",
+            nome: "ESCORPIAO",
             categoria:"ANIMAIS"
         },
         palavra049 = {
@@ -411,48 +438,48 @@ function carregaListaAutomatica(){
             categoria:"ANIMAIS"
         },
         palavra050 = {
-            nome: "HIPOPOTAMO",
+            nome: "RATO",
             categoria:"ANIMAIS"
         },
         palavra051 = {
-            nome: "A ERA DO GELO",
-            categoria:"TV E CINEMA"
+            nome: "PANICO",
+            categoria:"CINEMA"
         },
         palavra052 = {
-            nome: "HOMEM ARANHA",
-            categoria:"TV E CINEMA"
+            nome: "JOGOS MORTAIS",
+            categoria:"CINEMA"
         },
         palavra053 = {
-            nome: "CASA MONSTRO",
-            categoria:"TV E CINEMA"
+            nome: "O EXORCISTA",
+            categoria:"CINEMA"
         },
         palavra054 = {
-            nome: "TELA QUENTE",
-            categoria:"TV E CINEMA"
+            nome: "HALLOWEEN",
+            categoria:"CINEMA"
         },
         palavra055 = {
-            nome: "STRANGER THINGS",
-            categoria:"TV E CINEMA"
+            nome: "IT A COISA",
+            categoria:"CINEMA"
         },
         palavra056 = {
-            nome: "O REI DO GADO",
-            categoria:"TV E CINEMA"
+            nome: "DRACULA",
+            categoria:"CINEMA"
         },
         palavra057 = {
-            nome: "MULHER MARAVILHA",
-            categoria:"TV E CINEMA"
+            nome: "INVOCACAO DO MAL",
+            categoria:"CINEMA"
         },
         palavra058 = {
-            nome: "O INCRIVEL HULK",
-            categoria:"TV E CINEMA"
+            nome: "SCOOBY DOO",
+            categoria:"CINEMA"
         },
         palavra059 = {
-            nome: "BOB ESPONJA",
-            categoria:"TV E CINEMA"
+            nome: "ANNABELLE",
+            categoria:"CINEMA"
         },
         palavra060 = {
-            nome: "PANICO NA TV",
-            categoria:"TV E CINEMA"
+            nome: "THE WALKING DEAD",
+            categoria:"CINEMA"
         }
     ];
 }
