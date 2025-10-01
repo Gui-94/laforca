@@ -144,7 +144,7 @@ function carregaImagemForca(){
             document.getElementById("imagem").style.background  = "url('./img/forca06.png')";
             break;
         default:
-            document.getElementById("imagem").style.background  = "url('./img/forca06.png')";
+            document.getElementById("imagem").style.background  = "url('./img/forca.png')";
             break;
     }
 }
