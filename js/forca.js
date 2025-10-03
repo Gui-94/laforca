@@ -390,7 +390,7 @@ function carregaListaAutomatica(){
             categoria:"ALIMENTOS"
         },
         palavra039 = {
-            nome: "MAÇA",
+            nome: "MACA",
             categoria:"ALIMENTOS"
         },
         palavra040 = {
