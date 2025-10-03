@@ -75,7 +75,7 @@ function comparalistas(letra){
     const pos = palavraSecretaSorteada.indexOf(letra)
     if(pos < 0){
         tentativas--
-        carregaImagemForca();
+        carregaImagemForca(); // muda a imagem da forca
 
     if(tentativas == 0){
     let mensagem = `
@@ -101,8 +101,8 @@ function comparalistas(letra){
             }
         }
     }
-    
-    let vitoria = true;
+    // verifica vitória
+    let vitoria = true; 
     for(i = 0; i < palavraSecretaSorteada.length; i++){
         if(palavraSecretaSorteada[i] != listaDinamica[i]){
             vitoria = false;
